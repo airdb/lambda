@@ -9,7 +9,8 @@ import (
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	fmt.Println("Received body: ", request.Body)
 
-	return events.APIGatewayProxyResponse{Body: "Hello, aws lambda go!\n", StatusCode: 200}, nil
+	msg := "Hello, aws lambda go!\nGithub: https://github.com/airdb/lambda\n"
+	return events.APIGatewayProxyResponse{Body: msg, StatusCode: 200}, nil
 }
 
 func main() {
