@@ -1,4 +1,5 @@
 FunctionName=HelloGo
+Proc = main
 all: 
 	echo $(FunctionName)
 	go build main.go
@@ -15,3 +16,4 @@ git:
 clean:
 	rm -f lambda.log
 	rm -f main.zip
+	rm -f $(Proc)
