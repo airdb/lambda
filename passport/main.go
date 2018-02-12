@@ -12,7 +12,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	msg := `{"token":"416c9006ca431f503160b7e7","status":0}`
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Headers:    map[string]string{"x-airdb-token": "416c9006ca431f503160b7e7"},
+		Headers:    map[string]string{"x-airdb-token": "416c9006ca431f503160b7e7", "Access-Control-Allow-Origin": "*"},
 		Body:       msg,
 	}, nil
 }
