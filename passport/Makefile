@@ -2,19 +2,17 @@ BUILD=main
 DEPLOYMENT=$(BUILD).zip
 FUNCTION=Passport
 REGION=ap-southeast-1
-FunctionName=Passport
-BIN = main
 
 all: deploy
 	echo $(FunctionName) 
 	make git
 
-build: ($BUILD)
-	echo $(FunctionName)
+build: 
+#	echo $(FunctionName)
 #	go build main.go
 	GOOS=linux go build -o $(BUILD) .
 
-package:
+package: build
 	zip main.zip main
 
 deploy: package
@@ -29,7 +27,7 @@ test:
 git:
 	make clean
 	git add . 
-	git commit -m "auot make update"
+	git commit -m "auto make update"
 	git push
 
 .PHONY: clean
