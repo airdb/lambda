@@ -1,11 +1,15 @@
 BUILD=main
 DEPLOYMENT=$(BUILD).zip
 FUNCTION=Passport
-REGION=ap-southeast-1
+REGION=ap-northeast-1
 
-all: deploy
-	echo $(FunctionName) 
-	make git
+all:
+	echo $(Function) auto make success!!!
+#	make git
+	aws lambda update-function-code \
+        --region $(REGION) \
+        --function-name $(FUNCTION) \
+        --zip-file fileb://./$(DEPLOYMENT)
 
 build: 
 #	echo $(FunctionName)
@@ -15,14 +19,8 @@ build:
 package: build
 	zip main.zip main
 
-deploy: package
-    aws lambda update-function-code \
-        --region $(REGION) \
-        --function-name $(FUNCTION) \
-        --zip-file fileb://./$(DEPLOYMENT)
-
 test:
-	aws lambda invoke --function-name  $(FunctionName) lambda.log
+	aws lambda invoke --function-name $(FunctionName) lambda.log
 
 git:
 	make clean
