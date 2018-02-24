@@ -20,19 +20,17 @@ git:
 	git push
 
 build: $(BUILD)
-    GOOS=linux go build -o $(BUILD) .
-#build:
-##    #GOOS=linux 
-#    go build -o $(BUILD) main.go
-# 
-#package: build
-#    zip $(DEPLOYMENT) $(BUILD)
-#
-#deploy: package
-#    aws lambda update-function-code \
-#        --region $(REGION) \
-#        --function-name $(FUNCTION) \
-#        --zip-file fileb://./$(DEPLOYMENT)
+    GOOS=linux 
+    go build -o $(BUILD) .
+ 
+package: build
+    zip $(DEPLOYMENT) $(BUILD)
+
+deploy: package
+    aws lambda update-function-code \
+        --region $(REGION) \
+        --function-name $(FUNCTION) \
+        --zip-file fileb://./$(DEPLOYMENT)
 
 test:
 	aws lambda invoke --function-name  $(FunctionName) lambda.log
