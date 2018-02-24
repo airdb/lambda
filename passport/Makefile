@@ -2,40 +2,35 @@ BUILD=main
 DEPLOYMENT=$(BUILD).zip
 FUNCTION=Passport
 REGION=ap-southeast-1
-
 FunctionName=Passport
 BIN = main
 
-#all: 
-# 	echo $(FunctionName)
-# 	go build main.go
-# 	zip main.zip main
-# 	aws lambda update-function-code --function-name $(FunctionName) --zip-file fileb://main.zip
-# 	aws lambda invoke --function-name  $(FunctionName) lambda.log
+all: deploy
+	echo $(FunctionName) 
+	make git
+
+build: ($BUILD)
+	echo $(FunctionName)
+#	go build main.go
+	GOOS=linux go build -o $(BUILD) .
+
+package:
+	zip main.zip main
+
+deploy: package
+    aws lambda update-function-code \
+        --region $(REGION) \
+        --function-name $(FUNCTION) \
+        --zip-file fileb://./$(DEPLOYMENT)
+
+test:
+	aws lambda invoke --function-name  $(FunctionName) lambda.log
 
 git:
 	make clean
 	git add . 
 	git commit -m "auot make update"
 	git push
-
-build: $(BUILD)
-    GOOS=linux go build -o $(BUILD) .
-#build:
-##    #GOOS=linux 
-#    go build -o $(BUILD) main.go
-# 
-#package: build
-#    zip $(DEPLOYMENT) $(BUILD)
-#
-#deploy: package
-#    aws lambda update-function-code \
-#        --region $(REGION) \
-#        --function-name $(FUNCTION) \
-#        --zip-file fileb://./$(DEPLOYMENT)
-
-test:
-	aws lambda invoke --function-name  $(FunctionName) lambda.log
 
 .PHONY: clean
 clean:
